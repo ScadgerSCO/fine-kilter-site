@@ -66,8 +66,15 @@
 .hero-band .lede { margin: 0; }
 .hero-band .actions { margin-top: var(--s-5); }
 
-/* --- Section rhythm: density and release alternate (composition grammar) - */
-.section-band { padding: var(--s-8) 0; }
+/* --- Section rhythm: density and release alternate (composition grammar) -
+   padding-block only (never the shorthand): .section-band is combined with
+   .wrap-inner in the markup, and the earlier shorthand's 0 horizontal value
+   was overriding .wrap-inner's own side padding at the cascade's later
+   position — invisible on wide viewports (the wrap-inner box is narrower
+   than the viewport and centred, so the missing padding read as outer
+   whitespace) but total edge-to-edge content below ~1120px, i.e. on every
+   mobile viewport and mobile "request desktop site" (fixed 19 July 2026). */
+.section-band { padding-block: var(--s-8); }
 
 /* --- Offset content grid: counterweighted, corner-pinned — never a centred
    stack (composition grammar). Heading pins while its content runs long. */
