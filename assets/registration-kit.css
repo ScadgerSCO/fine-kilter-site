@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Fine Kilter — registration kit (kit 3 of 3, discipline D)
+   B158 F2 · grammar v1 · 18 July 2026 · produced to asset-direction brief 3
+   Charter: "The constant frame, set in register" (art-direction/direction-charter.md)
+
+   The compositional substrate: measure rails, datums, registered blocks,
+   rulebars, the ghost layer, and the settle-into-register system (JS half in
+   settle.js). Structural rule: every rail, datum and rule must index real
+   content — the kit ships with no decorative presets (I5).
+
+   All drawn grammar is ornament: rails and datums carry aria-hidden in
+   markup; headings, landmarks and reading order carry the page for AT
+   independently of it.
+
+   Dependencies (load order): fonts.css, tokens.css.
+
+   Grammar parameters:
+     --rk-rail-w         measure-rail width (desktop; mobile narrows)
+     --rk-field-pad      registered-field left padding (rail + gutter)
+     --rk-datum-w        datum tick length
+     --rk-corner-size    reg-block bracket arm length
+     --rk-settle-dur     settle transition duration
+     --rk-settle-dx/dy   settle displacement
+   ========================================================================== */
+
+:root{
+  --rk-rail-w: 56px;
+  --rk-field-pad: 84px;
+  --rk-datum-w: 9px;
+  --rk-corner-size: 14px;
+  --rk-settle-dur: .65s;
+  --rk-settle-dx: 12px;
+  --rk-settle-dy: 8px;
+}
+
+/* --- The registered field and its measure rail ---------------------------- */
+.reg-field{ position: relative; padding-left: var(--rk-field-pad); }
+.measure-rail{
+  position: absolute; left: 0; top: 0; bottom: 0; pointer-events: none;
+  width: var(--rk-rail-w); border-right: 1px solid var(--border-mount);
+}
+.datum{
+  position: absolute; right: -5px; pointer-events: none;
+  width: var(--rk-datum-w); height: 1px; background: var(--text-figure-label);
+}
+.datum::after{
+  content: attr(data-n); position: absolute; right: 16px; top: -.6em;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+  color: var(--text-figure-label);
+}
+
+/* --- Registered blocks: top rule, corner bracket, set-to-datum label ------ */
+.reg-block{
+  position: relative; border-top: 1px solid var(--border-mount);
+  padding-top: var(--s-4); margin-bottom: var(--s-7);
+}
+.reg-block::before{
+  content: ""; position: absolute; top: -1px; left: 0; pointer-events: none;
+  width: var(--rk-corner-size); height: var(--rk-corner-size);
+  border-left: 1px solid var(--text-figure-label);
+  border-top: 1px solid var(--text-figure-label);
+}
+.reg-label{
+  font-family: var(--font-mono); font-size: var(--type-0); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-figure-label);
+  margin: 0 0 var(--s-3); display: flex; justify-content: space-between; gap: var(--s-4);
+}
+
+/* --- Rulebar: full-width top rule with docked mono apparatus -------------- */
+.rulebar{
+  display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-4);
+  border-top: 1px solid var(--border-mount);
+  padding-top: var(--s-2); margin-bottom: var(--s-5);
+}
+.kick{
+  font-family: var(--font-mono); font-size: var(--type-0); letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-figure-label);
+}
+.idx{
+  font-family: var(--font-mono); font-size: var(--type-0); letter-spacing: .1em;
+  color: var(--text-figure-label);
+}
+
+/* --- Ghost layer: hero-only (I11), texture not text -----------------------
+   Below-AA-invisible by construction (nearest neutral to the ground);
+   aria-hidden in markup; absent in hc and on mobile. One instance per site. */
+.ghost{
+  position: absolute; right: -.02em; top: var(--s-5); pointer-events: none;
+  font-size: clamp(110px, 15vw, 200px); font-weight: 600;
+  letter-spacing: -.02em; line-height: 1; white-space: nowrap; user-select: none;
+}
+:root[data-theme="dark"] .ghost{ color: var(--n-90); }
+:root:not([data-theme]) .ghost,
+:root[data-theme="light"] .ghost{ color: var(--n-05); }
+:root[data-theme="hc-light"] .ghost,
+:root[data-theme="hc-dark"] .ghost{ display: none; }
+
+/* --- Settle-into-register (I3a): one-time arrival, stately ----------------
+   JS (settle.js) adds .settle-pre then releases with .settle-go; progressive
+   by construction — without JS nothing is hidden. Reduced motion: static. */
+.settle-pre{
+  opacity: 0;
+  transform: translate(var(--rk-settle-dx), var(--rk-settle-dy));
+}
+.settle-go{
+  opacity: 1; transform: none;
+  transition: opacity var(--rk-settle-dur) cubic-bezier(.22,.61,.36,1),
+              transform var(--rk-settle-dur) cubic-bezier(.22,.61,.36,1);
+}
+@media (prefers-reduced-motion: reduce){
+  .settle-pre{ opacity: 1; transform: none; }
+  .settle-go{ transition: none; }
+}
+
+/* --- Mobile: the rail narrows, the apparatus survives, the ghost drops ---- */
+@media (max-width: 820px){
+  :root{ --rk-rail-w: 36px; --rk-field-pad: 56px; }
+  .ghost{ display: none; }
+}

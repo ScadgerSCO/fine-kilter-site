@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Fine Kilter mark">
+        <g fill="none" stroke="currentColor" stroke-width="2.4">
+          <path d="M32,2 H46 V16"/><path d="M46,32 V46 H32"/><path d="M16,46 H2 V32"/>
+        </g>
+        <path d="M2,16 V2 H16" fill="none" stroke="#c04c16" stroke-width="2.4"/>
+        <text x="24" y="32" text-anchor="middle" font-family="Fira Mono" font-size="22" fill="currentColor">k</text>
+      </svg>

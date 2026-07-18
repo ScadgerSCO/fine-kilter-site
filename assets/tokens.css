@@ -1,0 +1,160 @@
+/* ==========================================================================
+   Fine Kilter — design tokens
+   Current state only. No decision history — that lives in ../identity-*.md.
+   Primitive -> semantic -> theme. Components reference semantic tokens only,
+   never primitives, so a theme swap changes expression without changing roles.
+   Themes: light (default) · dark · hc-light · hc-dark.
+   Every semantic pair is WCAG-verified (base themes AA; hc themes AAA text /
+   >=4.5:1 UI). Switch theme with <html data-theme="dark|hc-light|hc-dark">.
+   ========================================================================== */
+
+/* --- Primitives: neutral ramp (hue 215, navy-biased, low chroma) ---------- */
+:root {
+  --n-00: #f9fafb;
+  --n-05: #f3f5f6;
+  --n-10: #ebedf0;
+  --n-20: #d7dbe0;
+  --n-30: #b6bcc3;
+  --n-40: #9097a2;
+  --n-50: #6f7985;
+  --n-60: #575f6b;
+  --n-70: #3d434d;
+  --n-80: #272d34;
+  --n-85: #20252b;
+  --n-90: #1a1e23;
+  --n-95: #111418;
+
+  /* Primitives: rust ramp (hue ~25) — the warm/human accent.
+     Replaces the original ochre ramp (hue 38); hue changed 17 July 2026
+     (Brand Adviser R7, B158 F0a) — o-70 could not clear AA on the light
+     ground without losing chroma. Prefix kept for continuity. */
+  --o-20: #fbd9c2;
+  --o-30: #f5a06b;
+  --o-40: #e8763f;
+  --o-50: #d95f28;
+  --o-60: #c04c16;
+  --o-70: #a63e0e;
+  --o-80: #7c2d12;
+
+  /* Primitives: state hues — structurally separate from brand colour */
+  --g-50: #2f6b46;  /* ok  (dark) */
+  --g-30: #7fc39b;  /* ok  (light) */
+  --r-50: #b2182b;  /* attention (dark) */
+  --r-30: #f47983;  /* attention (light) */
+
+  /* Type */
+  --font-sans: 'Fira Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Fira Mono', ui-monospace, Menlo, monospace;
+
+  --type-0: 12px;   /* figure label (uppercase, tracked) */
+  --type-1: 14px;   /* caption */
+  --type-2: 16px;   /* body */
+  --type-3: 19px;
+  --type-4: 23px;
+  --type-5: 28px;
+  --type-6: 33px;
+  --type-7: 40px;
+  --type-body: var(--type-2);
+  --type-caption: var(--type-1);
+  --type-figure-label: var(--type-0);
+  --line-body: 1.55;
+
+  /* Spacing (4px base, modular). Build defined s1..s8; s0 and s9 documented. */
+  --s-0: 0;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+
+  /* Shape — near-square. Controls only get a radius; mount/frame stay square. */
+  --radius-0: 0;      /* mount, frame, cards */
+  --radius-1: 2px;    /* controls (buttons, inputs) only */
+
+  /* Reading measure */
+  --measure: 60ch;    /* 60–70ch for reading text */
+}
+
+/* --- Semantic layer: LIGHT (default) -------------------------------------- */
+:root,
+:root[data-theme="light"] {
+  --surface-ground: var(--n-10);
+  --surface-mount: var(--n-00);
+  --border-mount: var(--n-50);
+  --text-primary: var(--n-90);
+  --text-secondary: var(--n-60);
+  --text-caption: var(--n-60);
+  --text-figure-label: var(--n-60);
+  --accent: var(--o-70);
+  --accent-hover: var(--o-80);
+  --on-accent: var(--n-00);       /* label on the accent fill */
+  --state-ok: var(--g-50);
+  --state-attention: var(--r-50);
+  --focus: var(--n-90);           /* focus ring; always offset onto the ground */
+  --dis-bg: var(--n-20);
+  --dis-fg: var(--n-50);
+}
+
+/* --- Semantic layer: DARK ------------------------------------------------- */
+:root[data-theme="dark"] {
+  --surface-ground: var(--n-95);
+  --surface-mount: var(--n-85);
+  --border-mount: var(--n-50);
+  --text-primary: var(--n-05);
+  --text-secondary: var(--n-30);
+  --text-caption: var(--n-30);
+  --text-figure-label: var(--n-40);
+  --accent: var(--o-40);
+  --accent-hover: var(--o-30);
+  --on-accent: var(--n-95);
+  --state-ok: var(--g-30);
+  --state-attention: var(--r-30);
+  --focus: var(--n-05);
+  --dis-bg: var(--n-70);
+  --dis-fg: var(--n-50);
+}
+
+/* --- Semantic layer: HIGH-CONTRAST LIGHT (AAA text / >=4.5:1 UI) ----------
+   Rules that differ from base: fills collapse to the ground (mount = ground,
+   the border carries every boundary); state hues stop carrying TEXT (text goes
+   to --text-primary, the hue survives only on the glyph and heavier border).  */
+:root[data-theme="hc-light"] {
+  --surface-ground: #ffffff;
+  --surface-mount: #ffffff;
+  --border-mount: var(--n-70);
+  --text-primary: var(--n-95);
+  --text-secondary: var(--n-70);
+  --text-caption: var(--n-70);
+  --text-figure-label: var(--n-70);
+  --accent: var(--o-80);
+  --accent-hover: var(--o-80);
+  --on-accent: #ffffff;
+  --state-ok: var(--g-50);        /* glyph + border only; label uses text-primary */
+  --state-attention: var(--r-50);
+  --focus: var(--n-95);
+  --dis-bg: var(--n-10);
+  --dis-fg: var(--n-60);
+}
+
+/* --- Semantic layer: HIGH-CONTRAST DARK ----------------------------------- */
+:root[data-theme="hc-dark"] {
+  --surface-ground: #000000;
+  --surface-mount: #000000;
+  --border-mount: var(--n-30);
+  --text-primary: #ffffff;
+  --text-secondary: var(--n-20);
+  --text-caption: var(--n-20);
+  --text-figure-label: var(--n-20);
+  --accent: var(--o-30);
+  --accent-hover: var(--o-20);
+  --on-accent: var(--n-95);
+  --state-ok: var(--g-30);
+  --state-attention: var(--r-30);
+  --focus: #ffffff;
+  --dis-bg: var(--n-90);
+  --dis-fg: var(--n-40);
+}

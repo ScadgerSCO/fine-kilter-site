@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Fine Kilter — constant-frame grammar (kit 1 of 3, discipline D)
+   B158 F2 · grammar v1 · 18 July 2026 · produced to asset-direction brief 1
+   Charter: "The constant frame, set in register" (art-direction/direction-charter.md)
+
+   The frame/plate/slide component set carrying the constant-vs-swappable
+   conceit. Constant layer: plate, cframe, corners (tl fixed rust = the datum,
+   I4), frame-tag. Swappable layer: the slide system (12s cycle, ends at the
+   human step, I2).
+
+   Dependencies (load order): fonts.css, tokens.css, components.css (.chip),
+   site.css (.figure-label). All colour/space/type from design-system tokens
+   (charter I9); numeric grammar constants are exposed as semantic parameters
+   below and validated by ../validate-kits.mjs.
+
+   Grammar parameters (semantic; tune only within charter permitted variation):
+     --cf-plate-offset   plate under-layer offset (hc tightens to 10px)
+     --cf-corner-size    registration corner arm length
+     --cf-corner-stroke  registration corner stroke
+     --cf-cycle          full swap cycle duration
+     --cf-slide-entry    slide entry displacement
+   ========================================================================== */
+
+:root{
+  --cf-plate-offset: 14px;
+  --cf-corner-size: 18px;
+  --cf-corner-stroke: 2px;
+  --cf-cycle: 12s;
+  --cf-slide-entry: 14px;
+}
+:root[data-theme="hc-light"], :root[data-theme="hc-dark"]{
+  --cf-plate-offset: 10px;
+}
+
+/* --- The plate: the under-layer board the frame sits proud of ------------- */
+.plate{ position: relative; }
+.plate::before{
+  content: ""; position: absolute; pointer-events: none;
+  inset: var(--cf-plate-offset) calc(-1 * var(--cf-plate-offset))
+         calc(-1 * var(--cf-plate-offset)) var(--cf-plate-offset);
+  background: var(--surface-mount); border: 1px solid var(--border-mount);
+}
+
+/* --- The constant frame --------------------------------------------------- */
+.cframe{
+  position: relative; background: var(--surface-ground);
+  border: 1px solid var(--border-mount); padding: var(--s-6);
+}
+:root[data-theme="dark"] .cframe{ background: var(--n-95); }
+
+/* Elevation: the frame is the view's object (one level; hc collapses, I6) */
+:root[data-theme="dark"] .cframe.lift-hi{
+  box-shadow: inset 0 1px 0 rgba(243,245,246,.09), 0 18px 48px rgba(0,0,0,.55);
+}
+:root:not([data-theme]) .cframe.lift-hi,
+:root[data-theme="light"] .cframe.lift-hi{
+  box-shadow: 0 12px 36px rgba(17,20,24,.12);
+}
+:root[data-theme="hc-light"] .cframe.lift-hi,
+:root[data-theme="hc-dark"] .cframe.lift-hi{ box-shadow: none; }
+
+/* --- Registration corners: tl is the fixed rust datum (I4), never moves --- */
+.corner{
+  position: absolute; pointer-events: none;
+  width: var(--cf-corner-size); height: var(--cf-corner-size);
+  border: 0 solid var(--text-primary);
+}
+.c-tl{ top: -1px; left: -1px;
+  border-top-width: var(--cf-corner-stroke); border-left-width: var(--cf-corner-stroke);
+  border-color: var(--accent); }
+.c-tr{ top: -1px; right: -1px;
+  border-top-width: var(--cf-corner-stroke); border-right-width: var(--cf-corner-stroke); }
+.c-bl{ bottom: -1px; left: -1px;
+  border-bottom-width: var(--cf-corner-stroke); border-left-width: var(--cf-corner-stroke); }
+.c-br{ bottom: -1px; right: -1px;
+  border-bottom-width: var(--cf-corner-stroke); border-right-width: var(--cf-corner-stroke); }
+
+/* --- Frame tag: mono, above-frame, honest data only (I8) ------------------ */
+.frame-tag{
+  position: absolute; top: calc(-1 * var(--s-2)); left: var(--s-5);
+  transform: translateY(-100%); pointer-events: none;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+  color: var(--text-figure-label);
+}
+
+/* --- The slide system: the swappable contents (I2) ------------------------
+   One animated slide-set per view. Contents are real work-states only; every
+   cycle ends at the human step (`awaiting owner`). Presets: data-n="3"
+   (three states, 4s offsets) and data-n="2" (two states, 6s offsets) — the
+   approved deterministic presets; no other counts ship at v1. */
+.slides{ position: relative; min-height: 200px; }
+.slide{
+  position: absolute; inset: 0; opacity: 0;
+  animation: cf-swap var(--cf-cycle) infinite;
+}
+.slides[data-n="3"] .slide:nth-child(2){ animation-delay: 4s; }
+.slides[data-n="3"] .slide:nth-child(3){ animation-delay: 8s; }
+.slides[data-n="2"] .slide:nth-child(2){ animation-delay: 6s; }
+@keyframes cf-swap{
+  0%{ opacity: 0; transform: translateX(var(--cf-slide-entry)); }
+  4%, 30%{ opacity: 1; transform: none; }
+  36%, 100%{ opacity: 0; transform: none; }
+}
+
+/* Pause control (WCAG 2.2.2): hover or keyboard focus pauses the swap.
+   Frames carrying slides are focusable (tabindex="0" + aria-label in markup). */
+.cframe:hover .slide,
+.cframe:focus-within .slide,
+.cframe:focus .slide{ animation-play-state: paused; }
+
+.slide .figure-label{ margin-bottom: var(--s-2); }
+.slide p{ font-size: var(--type-1); margin-bottom: var(--s-3); }
+.swap-chip{
+  font-family: var(--font-mono); font-size: var(--type-0);
+  border: 1px solid var(--border-mount); padding: 2px 8px;
+  color: var(--text-secondary);
+}
+.slide-idx{ position: absolute; right: 0; bottom: 0; }
+
+/* Reduced motion (I2): states stacked static with rules between, indices inline.
+   Every slide is complete in the DOM regardless of visual state. */
+@media (prefers-reduced-motion: reduce){
+  .slides{ min-height: 0; }
+  .slide{
+    position: static; opacity: 1; animation: none;
+    border-top: 1px solid var(--border-mount);
+    padding-top: var(--s-3); margin-top: var(--s-3);
+  }
+  .slide:first-child{ border-top: 0; padding-top: 0; margin-top: 0; }
+  .slide-idx{ position: static; display: inline-block; margin-top: var(--s-2); }
+}

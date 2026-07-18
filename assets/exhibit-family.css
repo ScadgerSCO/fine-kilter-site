@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Fine Kilter — exhibit family (kit 2 of 3, discipline B)
+   B158 F2 · family v1 · 18 July 2026 · produced to asset-direction brief 2
+   Charter: "The constant frame, set in register" (art-direction/direction-charter.md)
+
+   The captioned-artifact object set that fills the frames: exhibit container,
+   FIG/provenance apparatus, cells, captions, rules-table, state chips. The
+   contents, never the governing conceit (decision record: A's exhibits as
+   contents). Real material only, provenance-labelled (I8).
+
+   Dependencies (load order): fonts.css, tokens.css, components.css (.chip
+   base + state colours), site.css (.exhibit/.exhibit-grid/.exhibit-cell/
+   .exhibit-caption/.figure-label base). This kit upgrades those base objects
+   to the charter's vocabulary: elevation (the exhibit as the page's object),
+   registration corners tl/br (I5 drawn form), the mono apparatus rows, and
+   the I4 glow on `awaiting owner` alone. Square-cornered throughout — no
+   radius on any exhibit surface (registration-corner form).
+
+   Grammar parameters:
+     --ex-corner-size    registration bracket arm length
+   ========================================================================== */
+
+:root{
+  --ex-corner-size: 14px;
+}
+
+/* --- The exhibit container: elevated, square, registered ------------------ */
+.exhibit{ position: relative; border-radius: 0; }
+:root[data-theme="dark"] .exhibit.lift-hi{
+  box-shadow: inset 0 1px 0 rgba(243,245,246,.09), 0 18px 48px rgba(0,0,0,.55);
+}
+:root:not([data-theme]) .exhibit.lift-hi,
+:root[data-theme="light"] .exhibit.lift-hi{
+  box-shadow: 0 12px 36px rgba(17,20,24,.12);
+}
+:root[data-theme="hc-light"] .exhibit.lift-hi,
+:root[data-theme="hc-dark"] .exhibit.lift-hi{ box-shadow: none; }
+
+/* Registration corners tl/br (I5): drawn form as pseudo-elements — ornament
+   by construction, outside the accessibility tree, never intercepting input. */
+.exhibit.reg-corners::before,
+.exhibit.reg-corners::after{
+  content: ""; position: absolute; pointer-events: none;
+  width: var(--ex-corner-size); height: var(--ex-corner-size);
+}
+.exhibit.reg-corners::before{
+  top: -1px; left: -1px;
+  border-top: 1px solid var(--text-figure-label);
+  border-left: 1px solid var(--text-figure-label);
+}
+.exhibit.reg-corners::after{
+  bottom: -1px; right: -1px;
+  border-bottom: 1px solid var(--text-figure-label);
+  border-right: 1px solid var(--text-figure-label);
+}
+
+/* --- FIG / provenance apparatus (craft floor: in the family's grammar) ----
+   .figure-label base lives in site.css (mono, uppercase, tracked). The
+   provenance row carries the honesty labelling (I8): "demonstration, not
+   client work" where true. */
+.fig-row{
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: var(--s-4); margin-bottom: var(--s-3);
+}
+.fig-row .figure-label{ margin: 0; }
+.provenance{
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-figure-label); white-space: nowrap;
+}
+
+/* --- Cells and captions (base geometry from site.css; square here) -------- */
+.exhibit-cell{ border-radius: 0; }
+.exhibit-caption{ font-size: var(--type-1); color: var(--text-caption); margin: var(--s-4) 0 0; }
+
+/* --- Rules-table: mono headers, bordered, honest structure ---------------- */
+.rules-table{ width: 100%; border-collapse: collapse; font-size: var(--type-1); }
+.rules-table th, .rules-table td{
+  text-align: left; border: 1px solid var(--border-mount);
+  padding: var(--s-2) var(--s-3); vertical-align: top;
+}
+.rules-table th{
+  font-family: var(--font-mono); font-weight: 400; font-size: var(--type-0);
+  letter-spacing: .06em; text-transform: uppercase; color: var(--text-figure-label);
+}
+.rules-table .mono{
+  font-family: var(--font-mono); font-size: var(--type-0); color: var(--text-secondary);
+}
+
+/* --- State chips: the I4 glow exists solely on `awaiting owner` -----------
+   Chip base (glyph + word + hue, colour-never-alone) lives in components.css.
+   chip-att carries the state-attention crimson; chip-wait carries the accent
+   and the only glow anywhere in the identity. hc: no glow. */
+:root[data-theme="dark"] .chip-wait{
+  box-shadow: 0 0 14px rgba(232,118,63,.35), 0 0 3px rgba(232,118,63,.25);
+}
+:root:not([data-theme]) .chip-wait,
+:root[data-theme="light"] .chip-wait{
+  box-shadow: 0 0 12px rgba(166,62,14,.22);
+}
+:root[data-theme="hc-light"] .chip-wait,
+:root[data-theme="hc-dark"] .chip-wait{ box-shadow: none; }

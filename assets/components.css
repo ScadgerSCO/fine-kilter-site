@@ -1,0 +1,102 @@
+/* ==========================================================================
+   Fine Kilter — component library
+   Faithful to the built spec (../artifacts/fine-kilter-components.html),
+   re-expressed against the canonical semantic tokens in tokens.css.
+   Components reference semantic tokens only — never primitives.
+   Load order: fonts.css, tokens.css, then this file.
+   ========================================================================== */
+
+/* --- Buttons -------------------------------------------------------------- */
+.btn {
+  font-family: var(--font-sans);
+  font-size: var(--type-1);          /* 14px */
+  font-weight: 500;
+  line-height: 1;
+  padding: 11px 18px;
+  border-radius: var(--radius-1);
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);                   /* 8px */
+}
+
+/* Primary — the accent (rust) fill. At most ONE per view: the human's next move. */
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover,
+.btn-primary.is-hover { background: var(--accent-hover); }
+.btn-primary:active,
+.btn-primary.is-active { background: var(--accent-hover); transform: translateY(1px); }
+
+/* Secondary — neutral outline on the ground */
+.btn-secondary { background: transparent; color: var(--text-primary); border-color: var(--border-mount); }
+.btn-secondary:hover,
+.btn-secondary.is-hover { background: var(--surface-mount); }
+
+/* Ghost — text only; hover underlines rather than fills */
+.btn-ghost { background: transparent; color: var(--text-primary); border-color: transparent; padding-left: 4px; padding-right: 4px; }
+.btn-ghost:hover,
+.btn-ghost.is-hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Focus — ALWAYS offset onto the ground, never inset (load-bearing rule) */
+.btn:focus-visible,
+.btn.is-focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Disabled — aria-disabled (NOT native `disabled`), so it stays focusable and
+   a keyboard/SR user can discover it. Add a no-op activation guard in real use. */
+.btn[aria-disabled="true"],
+.btn.is-disabled { background: var(--dis-bg); color: var(--dis-fg); border-color: transparent; cursor: not-allowed; }
+
+/* --- Inputs --------------------------------------------------------------- */
+.inp {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-1);
+  background: var(--surface-mount);
+  color: var(--text-primary);
+  border: 1px solid var(--border-mount);
+}
+.inp:focus-visible,
+.inp.is-focus { outline: 2px solid var(--focus); outline-offset: 2px; border-color: var(--text-primary); }
+.inp.is-error { border-color: var(--state-attention); border-width: 2px; }
+
+.lab { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+
+/* Error message — icon + full sentence + heavier border. Never a bare red line;
+   say what is wrong AND how to fix it. Colour is never the sole carrier. */
+.err { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--state-attention); margin-top: 6px; }
+.err svg { flex: none; }
+
+/* --- Status chips ---------------------------------------------------------
+   Every chip carries a glyph AND a word as well as a hue (aria-hidden on the
+   glyph; the word carries meaning to AT). Greyscale them and they still read. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: var(--radius-1);
+  border: 1px solid currentColor;
+}
+.chip svg { flex: none; }
+.chip-ok   { color: var(--state-ok); }
+.chip-wait { color: var(--accent); }        /* awaiting owner = where the human is */
+.chip-att  { color: var(--state-attention); }
+
+/* --- High-contrast state-recede rule (apply at HC render time) ------------
+   In hc-light / hc-dark the state hue must stop carrying TEXT: the word goes to
+   --text-primary (max contrast) and the hue survives only on the glyph + border.
+   Implement with an explicit fill on the glyph once the real SVG markup is
+   wired (it currently inherits currentColor). Kept as a documented rule rather
+   than untested CSS — the HC theme is designed/measured but not yet rendered.
+   Example shape:
+     :root[data-theme="hc-light"] .chip,
+     :root[data-theme="hc-dark"]  .chip { color: var(--text-primary); }
+     :root[data-theme="hc-light"] .chip-ok  svg { fill: var(--state-ok); }
+   ...per chip type. */

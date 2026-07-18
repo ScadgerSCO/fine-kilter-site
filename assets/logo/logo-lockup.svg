@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" aria-label="Fine Kilter">
+        <g fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M245,2 H258 V15"/><path d="M258,33 V46 H245"/><path d="M15,46 H2 V33"/>
+        </g>
+        <path d="M2,15 V2 H15" fill="none" stroke="#c04c16" stroke-width="2.5"/>
+        <text x="130.0" y="39" text-anchor="middle" font-family="Fira Sans" font-weight="500"
+              font-size="26" letter-spacing="-0.2" fill="currentColor">Fine Kilter</text>
+      </svg>

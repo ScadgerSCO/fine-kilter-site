@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Fine Kilter — site layout layer (v1 build, 16 July 2026)
+   References semantic tokens only. Load after fonts.css, tokens.css,
+   components.css. Layout/decisions record: ../../design-build-spec.md
+   ========================================================================== */
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--surface-ground);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--type-body);
+  line-height: var(--line-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Skip link ------------------------------------------------------------ */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: var(--s-2);
+  background: var(--surface-mount);
+  color: var(--text-primary);
+  padding: var(--s-2) var(--s-4);
+  border: 1px solid var(--border-mount);
+  z-index: 10;
+}
+.skip:focus { left: var(--s-2); outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* --- Shell ----------------------------------------------------------------- */
+.wrap { max-width: 880px; margin-inline: auto; padding-inline: var(--s-5); }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+  padding-block: var(--s-5);
+}
+.brand { display: inline-flex; color: var(--text-primary); }
+.brand svg { height: 36px; width: auto; display: block; }
+
+.site-nav { display: flex; align-items: center; gap: var(--s-4); flex-wrap: wrap; }
+.site-nav a:not(.btn) {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: var(--type-1);
+  padding: var(--s-1) 0;
+}
+.site-nav a:not(.btn):hover { text-decoration: underline; text-underline-offset: 3px; }
+.site-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+.site-nav a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* --- Type ------------------------------------------------------------------ */
+h1 { font-size: var(--type-6); font-weight: 500; line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 var(--s-4); }
+h2 { font-size: var(--type-4); font-weight: 500; line-height: 1.25; margin: var(--s-8) 0 var(--s-4); }
+h3 { font-size: var(--type-3); font-weight: 500; margin: var(--s-5) 0 var(--s-2); }
+p, ul, ol { margin: 0 0 var(--s-4); }
+main p, main li { max-width: var(--measure); }
+.lede { font-size: var(--type-3); color: var(--text-secondary); }
+main a { color: inherit; text-underline-offset: 3px; }
+main a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+strong { font-weight: 500; }
+
+.figure-label {
+  font-family: var(--font-mono);
+  font-size: var(--type-0);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-figure-label);
+  margin: 0 0 var(--s-3);
+}
+
+/* --- Sections and panels ---------------------------------------------------- */
+.section { padding-block: var(--s-7); }
+.hero { padding-block: var(--s-8) var(--s-7); }
+.hero .actions { margin-top: var(--s-6); }
+
+.panel {
+  background: var(--surface-mount);
+  border: 1px solid var(--border-mount);
+  border-radius: var(--radius-0);
+  padding: var(--s-6);
+}
+
+.plain-list { padding-left: 1.2em; }
+.plain-list li { margin-bottom: var(--s-2); }
+
+.diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+.diff-grid .panel h3 { margin-top: 0; }
+
+/* --- Exhibit ---------------------------------------------------------------- */
+.exhibit { border: 1px solid var(--border-mount); background: var(--surface-mount); padding: var(--s-5); }
+.exhibit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+.exhibit-cell { border: 1px solid var(--border-mount); padding: var(--s-4); background: var(--surface-ground); }
+.exhibit-cell p { font-size: var(--type-1); margin-bottom: var(--s-3); }
+.exhibit-caption { font-size: var(--type-1); color: var(--text-caption); margin: var(--s-4) 0 0; }
+
+/* --- Steps ------------------------------------------------------------------ */
+.steps { counter-reset: step; padding: 0; margin: 0 0 var(--s-4); list-style: none; }
+.steps li { counter-increment: step; display: flex; gap: var(--s-4); margin-bottom: var(--s-4); max-width: var(--measure); }
+.steps li::before {
+  content: counter(step);
+  font-family: var(--font-mono);
+  font-size: var(--type-1);
+  border: 1px solid var(--border-mount);
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex: none;
+}
+
+/* --- Actions ----------------------------------------------------------------- */
+.actions { display: flex; gap: var(--s-4); align-items: center; flex-wrap: wrap; }
+.action-block { margin-block: var(--s-7); }
+a.btn { text-decoration: none; }
+
+/* --- Form ---------------------------------------------------------------------- */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+.form-grid .field-wide { grid-column: 1 / -1; }
+.field { margin-bottom: var(--s-2); }
+textarea.inp { min-height: 120px; resize: vertical; font-family: var(--font-sans); line-height: 1.5; }
+.form-note { font-size: var(--type-1); color: var(--text-secondary); margin-top: var(--s-4); }
+
+/* --- FAQ (Straight answers) ------------------------------------------------------ */
+.qa h2 { font-size: var(--type-3); margin: var(--s-6) 0 var(--s-2); }
+
+/* --- Footer ------------------------------------------------------------------ */
+.site-footer {
+  margin-top: var(--s-8);
+  border-top: 1px solid var(--border-mount);
+  padding-block: var(--s-6);
+  font-size: var(--type-1);
+  color: var(--text-secondary);
+}
+.site-footer nav { display: flex; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-2); }
+.site-footer a { color: var(--text-secondary); text-underline-offset: 3px; }
+.site-footer a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* --- Responsive ----------------------------------------------------------------- */
+@media (max-width: 720px) {
+  h1 { font-size: var(--type-5); }
+  h2 { font-size: var(--type-3); }
+  .exhibit-grid, .diff-grid, .form-grid { grid-template-columns: 1fr; }
+  .section { padding-block: var(--s-6); }
+  .hero { padding-block: var(--s-7) var(--s-6); }
+  .panel { padding: var(--s-5); }
+}

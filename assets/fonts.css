@@ -1,0 +1,23 @@
+/* Fine Kilter — web fonts (SIL OFL, zero-cost). Self-hosted, latin subset.
+   Provenance, sizes and checksums: ../assets/fonts/README.md */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/firasans-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./fonts/firasans-500-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fira Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./fonts/firamono-400-latin.woff2') format('woff2');
+}
