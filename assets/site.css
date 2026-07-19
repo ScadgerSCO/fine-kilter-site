@@ -130,6 +130,9 @@ a.btn { text-decoration: none; }
 .field { margin-bottom: var(--s-2); }
 textarea.inp { min-height: 120px; resize: vertical; font-family: var(--font-sans); line-height: 1.5; }
 .form-note { font-size: var(--type-1); color: var(--text-secondary); margin-top: var(--s-4); }
+.form-status[data-kind="error"] { color: var(--state-attention); }
+.form-confirmation { color: var(--state-ok); }
+.hp-field { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* --- FAQ (Straight answers) ------------------------------------------------------ */
 .qa h2 { font-size: var(--type-3); margin: var(--s-6) 0 var(--s-2); }

@@ -226,8 +226,8 @@
     <section class="section" aria-labelledby="contact-h" id="contact">
       <h2 id="contact-h">Start the conversation</h2>
       <div class="panel">
-        <!-- Form handler: launch item (design-build-spec.md, technical brief). No live endpoint yet. -->
-        <form action="#contact" method="post">
+        <!-- Form handler: Make webhook, wired 19 July 2026 (B168). assets/enquiry-form.js intercepts submit for the in-page confirmation/error UX; the action attribute is the no-JS fallback (native POST straight to the same webhook). -->
+        <form action="https://hook.eu1.make.com/1rmp4jbftnxmgg8ua1l1lzg4bcispx0r" method="post">
           <div class="form-grid">
             <div class="field">
               <label class="lab" for="f-name">Name (required)</label>
@@ -244,6 +244,10 @@
             <div class="field field-wide">
               <label class="lab" for="f-friction">Where's the friction? (a sentence or two is plenty)</label>
               <textarea class="inp" id="f-friction" name="friction"></textarea>
+            </div>
+            <div class="hp-field" aria-hidden="true">
+              <label for="f-hp">Leave this field blank</label>
+              <input id="f-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
             </div>
           </div>
           <p class="form-note">I read every enquiry myself, usually within a working day, and reply personally. No automated reply, no mailing list, no follow-up sequence. Getting in touch doesn't commit you to anything. Please don't include passwords or other sensitive information here. <a href="privacy.html">Privacy notice</a></p>
@@ -268,5 +272,6 @@
 </footer>
 <script src="assets/settle.js?v=20260718"></script>
 <script src="assets/slide-fit.js?v=20260719"></script>
+<script src="assets/enquiry-form.js?v=20260719"></script>
 </body>
 </html>
