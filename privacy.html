@@ -46,13 +46,52 @@
     <ul class="plain-list">
       <li>What the enquiry form collects (name, email, company, your message) and why (so I can reply to you).</li>
       <li>Exactly where that information goes and how long it's kept.</li>
-      <li>What analytics run on this site, and the fact that they use no cookies and build no profiles.</li>
       <li>Your rights over your information, and how to ask me to delete it.</li>
     </ul>
-    <p>The commitments already made elsewhere on this site hold: your details go to me and nowhere else, there's no mailing list, and no follow-up sequence.</p>
+    <p>The commitments already made elsewhere on this site hold: your details go to me and nowhere else, there's no mailing list, and no follow-up sequence. This part of the notice, covering the enquiry form specifically, still needs a proper review before the site goes live.</p>
+  </section>
+
+  <section class="section" aria-labelledby="analytics">
+    <h2 id="analytics">Analytics</h2>
+    <p>This site uses <strong>GoatCounter</strong>, a privacy-first analytics tool. It sets no cookies, doesn't build a profile of you across visits, and can't identify you individually — it only counts things in aggregate, such as which pages get read and roughly where visitors came from. Nothing you type anywhere is sent to it.</p>
+    <p>GoatCounter doesn't automatically honour the browser's "Do Not Track" setting, so this site builds a real opt-out of its own: your choice below is stored only in this browser and always respected. If you haven't chosen and your browser sends a Global Privacy Control signal, analytics stay off by default.</p>
+    <p>
+      <button type="button" class="btn btn-secondary" id="analytics-opt-out-toggle">Loading…</button>
+      <span class="form-note" id="analytics-opt-out-status" style="display:block; margin-top: var(--s-2)"></span>
+    </p>
   </section>
 
 </main>
+
+<script>
+(function () {
+  var KEY = 'fk-analytics-opt-out';
+  var btn = document.getElementById('analytics-opt-out-toggle');
+  var status = document.getElementById('analytics-opt-out-status');
+  if (!btn) return;
+
+  function currentlyOptedOut() {
+    var stored = localStorage.getItem(KEY);
+    if (stored === '1') return true;
+    if (stored === '0') return false;
+    return navigator.globalPrivacyControl === true;
+  }
+
+  function render() {
+    var out = currentlyOptedOut();
+    btn.textContent = out ? 'Turn analytics on in this browser' : 'Turn analytics off in this browser';
+    status.textContent = out ? 'Analytics are currently off in this browser.' : 'Analytics are currently on in this browser.';
+  }
+
+  btn.addEventListener('click', function () {
+    localStorage.setItem(KEY, currentlyOptedOut() ? '0' : '1');
+    render();
+  });
+
+  render();
+})();
+</script>
+<script src="assets/analytics.js?v=20260719"></script>
 
 <footer class="wrap site-footer">
   <p style="margin-bottom:0">In fine kilter: proper working order, and the job in a nutshell.</p>
