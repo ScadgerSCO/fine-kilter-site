@@ -91,6 +91,10 @@
 .slides{ position: relative; min-height: 200px; }
 .slide{
   position: absolute; inset: 0; opacity: 0;
+  padding-bottom: var(--s-5); /* reserves room for .slide-idx so it never
+    overlaps wrapped content — .slides' own height is fitted to this by
+    slide-fit.js, since absolutely-positioned slides can't size their
+    container by natural flow alone (fixes narrow-viewport overlap) */
   animation: cf-swap var(--cf-cycle) infinite;
 }
 .slides[data-n="3"] .slide:nth-child(2){ animation-delay: 4s; }
@@ -111,6 +115,10 @@
 .slide .figure-label{ margin-bottom: var(--s-2); }
 .slide p{ font-size: var(--type-1); margin-bottom: var(--s-3); }
 .swap-chip{
+  display: inline-block; /* a plain inline border fragments per line-box on
+    wrap, leaving the boundary open at the break (narrow-viewport bug);
+    inline-block draws one closed border around the whole (possibly
+    two-line) box, matching how .chip (components.css) already handles it */
   font-family: var(--font-mono); font-size: var(--type-0);
   border: 1px solid var(--border-mount); padding: 2px 8px;
   color: var(--text-secondary);
