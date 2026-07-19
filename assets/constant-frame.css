@@ -88,7 +88,13 @@
    cycle ends at the human step (`awaiting owner`). Presets: data-n="3"
    (three states, 4s offsets) and data-n="2" (two states, 6s offsets) — the
    approved deterministic presets; no other counts ship at v1. */
-.slides{ position: relative; min-height: 200px; }
+.slides{ position: relative; min-height: 200px; overflow: hidden; }
+  /* clips decorative bleed (the chip-wait glow, ~14-17px blur) to the swap
+     area's own box — a safety margin normally invisible (the glow fades
+     within ~20px, well inside .cframe's 32px padding) but guarantees it can
+     never visually cross the constant frame's own border on any device.
+     Scoped to .slides, not .cframe: the registration corners intentionally
+     sit 1px outside .cframe's border box and must stay unclipped. */
 .slide{
   position: absolute; inset: 0; opacity: 0;
   padding-bottom: var(--s-5); /* reserves room for .slide-idx so it never
@@ -105,6 +111,19 @@
   4%, 30%{ opacity: 1; transform: none; }
   36%, 100%{ opacity: 0; transform: none; }
 }
+/* data-n="2" uses a 6s slot (half the 12s cycle) — the shared keyframe above
+   is tuned for the 3-slide 4s slot (hold 4-30%, fade to 36%: a ~4.32s
+   presence that fits a 4s slot almost seamlessly). Applied to a 6s slot it
+   left both slides invisible for ~1.68s at every handoff (a stall, not a
+   beat). This keyframe holds longer (4-42%, using the slot's extra room to
+   improve reading time) and keeps the same ~0.72s fade, leaving a short,
+   deliberate ~0.24s blank beat instead of a stall. */
+@keyframes cf-swap-2{
+  0%{ opacity: 0; transform: translateX(var(--cf-slide-entry)); }
+  4%, 42%{ opacity: 1; transform: none; }
+  48%, 100%{ opacity: 0; transform: none; }
+}
+.slides[data-n="2"] .slide{ animation-name: cf-swap-2; }
 
 /* Pause control (WCAG 2.2.2): hover or keyboard focus pauses the swap.
    Frames carrying slides are focusable (tabindex="0" + aria-label in markup). */
